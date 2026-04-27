@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CollectionManager.Views.SummaryPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Summary">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <Label
+                x:Name="NameLabel"
+                FontSize="26"
+                FontAttributes="Bold" />
+
+            <Label
+                x:Name="DescriptionLabel"
+                FontSize="13" />
+
+            <Frame Padding="12" CornerRadius="14" HasShadow="True">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="TotalItemsLabel" />
+                    <Label x:Name="TotalQuantityLabel" />
+                    <Label x:Name="OwnedLabel" />
+                    <Label x:Name="SoldLabel" />
+                    <Label x:Name="WantToSellLabel" />
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

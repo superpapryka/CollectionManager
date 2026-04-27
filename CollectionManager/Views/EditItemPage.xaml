@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CollectionManager.Views.EditItemPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Edit Item">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <Label
+                x:Name="HeaderLabel"
+                FontSize="24"
+                FontAttributes="Bold" />
+
+            <Entry x:Name="NameEntry" Placeholder="Name" />
+            <Entry x:Name="CategoryEntry" Placeholder="Category" />
+
+            <Entry
+                x:Name="QuantityEntry"
+                Placeholder="Quantity"
+                Keyboard="Numeric" />
+
+            <Picker x:Name="StatusPicker" Title="Status" />
+
+            <Editor
+                x:Name="NotesEditor"
+                Placeholder="Notes"
+                AutoSize="TextChanges"
+                HeightRequest="120" />
+
+            <Entry
+                x:Name="ImagePathEntry"
+                Placeholder="Image file path (optional)" />
+
+            <Button Text="Browse Image" Clicked="BrowseImage_Clicked" />
+
+            <Image
+                x:Name="PreviewImage"
+                HeightRequest="180"
+                Aspect="AspectFit" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button Text="Save" Clicked="Save_Clicked" Grid.Column="0" />
+                <Button Text="Cancel" Clicked="Cancel_Clicked" Grid.Column="1" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

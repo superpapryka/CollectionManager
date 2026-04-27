@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="CollectionManager.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="CollectionManager">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button
+                    Text="New Collection"
+                    Clicked="AddCollection_Clicked"
+                    Grid.Column="0" />
+
+                <Button
+                    Text="Refresh"
+                    Clicked="Refresh_Clicked"
+                    Grid.Column="1" />
+            </Grid>
+
+            <CollectionView
+                x:Name="CollectionsView"
+                SelectionMode="Single"
+                SelectionChanged="CollectionsView_SelectionChanged">
+
+                <CollectionView.EmptyView>
+                    <Label
+                        Text="No collections yet."
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Margin="20" />
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Margin="0,0,0,10"
+                            Padding="12"
+                            CornerRadius="14"
+                            HasShadow="True">
+
+                            <VerticalStackLayout Spacing="4">
+                                <Label
+                                    Text="{Binding Name}"
+                                    FontSize="18"
+                                    FontAttributes="Bold" />
+
+                                <Label
+                                    Text="{Binding Description}"
+                                    FontSize="13" />
+
+                                <Label
+                                    Text="{Binding ItemCount, StringFormat='Items: {0}'}"
+                                    FontSize="12"
+                                    TextColor="Gray" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
