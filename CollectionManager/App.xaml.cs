@@ -5,7 +5,7 @@ namespace CollectionManager;
 
 public partial class App : Application
 {
-    public static CollectionStore Store { get; } = new CollectionStore();
+    public static FileService Store { get; } = new FileService();
 
     public App()
     {

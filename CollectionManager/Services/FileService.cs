@@ -4,12 +4,12 @@ using Microsoft.Maui.Storage;
 
 namespace CollectionManager.Services;
 
-public class CollectionStore
+public class FileService
 {
     public string RootFolder { get; }
     public string CollectionsFolder { get; }
 
-    public CollectionStore()
+    public FileService()
     {
         RootFolder = Path.Combine(FileSystem.AppDataDirectory, "CollectionManager");
         CollectionsFolder = Path.Combine(RootFolder, "Collections");
