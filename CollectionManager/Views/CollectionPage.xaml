@@ -53,7 +53,16 @@
                             Margin="0,0,0,10"
                             Padding="12"
                             CornerRadius="14"
-                            HasShadow="True">
+                            HasShadow="True"
+                            x:Name="ItemFrame">
+
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame"
+                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=SelectedItem}"
+                                    Value="{Binding .}">
+                                    <Setter Property="BackgroundColor" Value="#D0E8FF"/>
+                                </DataTrigger>
+                            </Frame.Triggers>
 
                             <Grid ColumnDefinitions="80,*" ColumnSpacing="10">
                                 <Image

@@ -30,11 +30,27 @@ public partial class CollectionPage : ContentPage
         var loaded = await App.Store.LoadCollectionFromFileAsync(_collection.FilePath);
 
         _items.Clear();
-        foreach (var item in loaded.Items)
+
+        var sorted = loaded.Items
+            .OrderBy(i => GetStatusPriority(i.Status.ToString()))
+            .ThenBy(i => i.Name);
+
+        foreach (var item in sorted)
             _items.Add(item);
 
         ItemsView.ItemsSource = _items;
         CountLabel.Text = $"Items: {_items.Count}";
+    }
+
+    private int GetStatusPriority(string status)
+    {
+        return status switch
+        {
+            "Owned" => 0,
+            "Sold" => 1,
+            "WantToSell" => 2,
+            _ => 99
+        };
     }
 
     private async void AddItem_Clicked(object sender, EventArgs e)
