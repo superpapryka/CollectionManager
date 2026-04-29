@@ -16,6 +16,10 @@
             <Entry x:Name="NameEntry" Placeholder="Name" />
             <Entry x:Name="CategoryEntry" Placeholder="Category" />
 
+            <Label
+                x:Name="QuantityLabel"
+                Text="Quantity"
+                FontSize="14"/>
             <Entry
                 x:Name="QuantityEntry"
                 Placeholder="Quantity"
