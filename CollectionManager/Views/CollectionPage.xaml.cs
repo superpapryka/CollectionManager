@@ -7,6 +7,7 @@ public partial class CollectionPage : ContentPage
 {
     private readonly CollectionDefinition _collection;
     private readonly ObservableCollection<CollectibleItem> _items = new();
+    private CollectibleItem? _selectedItem;
 
     public CollectionPage(CollectionDefinition collection)
     {
@@ -17,6 +18,8 @@ public partial class CollectionPage : ContentPage
 
         CollectionNameLabel.Text = collection.Name;
         DescriptionLabel.Text = collection.Description;
+
+        ItemsView.ItemsSource = _items;
     }
 
     protected override async void OnAppearing()
@@ -29,6 +32,7 @@ public partial class CollectionPage : ContentPage
     {
         var loaded = await App.Store.LoadCollectionFromFileAsync(_collection.FilePath);
 
+        ClearSelection();
         _items.Clear();
 
         var sorted = loaded.Items
@@ -36,9 +40,11 @@ public partial class CollectionPage : ContentPage
             .ThenBy(i => i.Name);
 
         foreach (var item in sorted)
+        {
+            item.IsSelected = false;
             _items.Add(item);
+        }
 
-        ItemsView.ItemsSource = _items;
         CountLabel.Text = $"Items: {_items.Count}";
     }
 
@@ -53,6 +59,36 @@ public partial class CollectionPage : ContentPage
         };
     }
 
+    private void ClearSelection()
+    {
+        if (_selectedItem != null)
+            _selectedItem.IsSelected = false;
+
+        _selectedItem = null;
+    }
+
+    private void Item_Tapped(object sender, TappedEventArgs e)
+    {
+        if (sender is not BindableObject bindable)
+            return;
+
+        if (bindable.BindingContext is not CollectibleItem tapped)
+            return;
+
+        if (_selectedItem == tapped)
+        {
+            tapped.IsSelected = false;
+            _selectedItem = null;
+            return;
+        }
+
+        if (_selectedItem != null)
+            _selectedItem.IsSelected = false;
+
+        tapped.IsSelected = true;
+        _selectedItem = tapped;
+    }
+
     private async void AddItem_Clicked(object sender, EventArgs e)
     {
         await OpenEditorAsync(null);
@@ -60,20 +96,19 @@ public partial class CollectionPage : ContentPage
 
     private async void EditItem_Clicked(object sender, EventArgs e)
     {
-        var selected = ItemsView.SelectedItem as CollectibleItem;
+        var selected = _selectedItem;
         if (selected is null)
         {
             await DisplayAlert("Info", "Select an item first.", "OK");
             return;
         }
 
-        ItemsView.SelectedItem = null;
         await OpenEditorAsync(Clone(selected));
     }
 
     private async void DeleteItem_Clicked(object sender, EventArgs e)
     {
-        var selected = ItemsView.SelectedItem as CollectibleItem;
+        var selected = _selectedItem;
         if (selected is null)
         {
             await DisplayAlert("Info", "Select an item first.", "OK");
@@ -85,6 +120,8 @@ public partial class CollectionPage : ContentPage
             return;
 
         _items.Remove(selected);
+        ClearSelection();
+
         await App.Store.SaveCollectionAsync(_collection, _items);
         await LoadAsync();
     }
@@ -172,11 +209,6 @@ public partial class CollectionPage : ContentPage
         await Navigation.PushAsync(page);
     }
 
-    private async void ItemsView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        await Task.CompletedTask;
-    }
-
     private static CollectibleItem Clone(CollectibleItem source)
     {
         return new CollectibleItem
@@ -187,7 +219,8 @@ public partial class CollectionPage : ContentPage
             Quantity = source.Quantity,
             Status = source.Status,
             Notes = source.Notes,
-            ImagePath = source.ImagePath
+            ImagePath = source.ImagePath,
+            IsSelected = false
         };
     }
 }

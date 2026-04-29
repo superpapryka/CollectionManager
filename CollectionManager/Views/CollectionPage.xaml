@@ -33,12 +33,12 @@
                 <Button Text="Export" Clicked="Export_Clicked" Grid.Column="0" />
                 <Button Text="Import" Clicked="Import_Clicked" Grid.Column="1" />
             </Grid>
-            <Button Text="Delete Collection" Clicked="DeleteCollection_Clicked" Grid.ColumnSpan="2"/>
+
+            <Button Text="Delete Collection" Clicked="DeleteCollection_Clicked" />
 
             <CollectionView
                 x:Name="ItemsView"
-                SelectionMode="Single"
-                SelectionChanged="ItemsView_SelectionChanged">
+                SelectionMode="None">
 
                 <CollectionView.EmptyView>
                     <Label
@@ -50,71 +50,75 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame
-            Margin="0,0,0,10"
-            Padding="12"
-            CornerRadius="14"
-            HasShadow="True"
-            BackgroundColor="White"
-            BorderColor="#E0E0E0">
+                            Margin="0,0,0,10"
+                            Padding="12"
+                            CornerRadius="14"
+                            HasShadow="True"
+                            BackgroundColor="White"
+                            BorderColor="#E0E0E0">
 
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroupList>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="White" />
-                                                <Setter Property="BorderColor" Value="#E0E0E0" />
-                                            </VisualState.Setters>
-                                        </VisualState>
+                            <Frame.Triggers>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="#D0E8FF" />
+                                    <Setter Property="BorderColor" Value="#2D7FF9" />
+                                </DataTrigger>
 
-                                        <VisualState x:Name="Selected">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="#D0E8FF" />
-                                                <Setter Property="BorderColor" Value="#2D7FF9" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateGroupList>
-                            </VisualStateManager.VisualStateGroups>
+                                <DataTrigger TargetType="Frame" Binding="{Binding IsSelected}" Value="False">
+                                    <Setter Property="BackgroundColor" Value="White" />
+                                    <Setter Property="BorderColor" Value="#E0E0E0" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="Item_Tapped" />
+                            </Frame.GestureRecognizers>
 
                             <Grid ColumnDefinitions="Auto,80,*" ColumnSpacing="10">
                                 <Label
-                    Text="✓"
-                    FontSize="20"
-                    FontAttributes="Bold"
-                    TextColor="#2D7FF9"
-                    VerticalOptions="Center"
-                    Opacity="0" />
+                                    Text="X"
+                                    FontSize="20"
+                                    FontAttributes="Bold"
+                                    TextColor="#2D7FF9"
+                                    VerticalOptions="Center">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Opacity" Value="1" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="False">
+                                            <Setter Property="Opacity" Value="0" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
 
                                 <Image
-                    Grid.Column="1"
-                    Source="{Binding ImagePath}"
-                    HeightRequest="70"
-                    WidthRequest="70"
-                    Aspect="AspectFill" />
+                                    Grid.Column="1"
+                                    Source="{Binding ImagePath}"
+                                    HeightRequest="70"
+                                    WidthRequest="70"
+                                    Aspect="AspectFill" />
 
                                 <VerticalStackLayout Grid.Column="2" Spacing="3">
                                     <Label
-                        Text="{Binding Name}"
-                        FontSize="18"
-                        FontAttributes="Bold" />
+                                        Text="{Binding Name}"
+                                        FontSize="18"
+                                        FontAttributes="Bold" />
 
                                     <Label
-                        Text="{Binding Category}"
-                        FontSize="12" />
+                                        Text="{Binding Category}"
+                                        FontSize="12" />
 
                                     <Label
-                        Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
-                        FontSize="12" />
+                                        Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
+                                        FontSize="12" />
 
                                     <Label
-                        Text="{Binding Status, StringFormat='Status: {0}'}"
-                        FontSize="12" />
+                                        Text="{Binding Status, StringFormat='Status: {0}'}"
+                                        FontSize="12" />
 
                                     <Label
-                        Text="{Binding Notes}"
-                        FontSize="12"
-                        LineBreakMode="TailTruncation" />
+                                        Text="{Binding Notes}"
+                                        FontSize="12"
+                                        LineBreakMode="TailTruncation" />
                                 </VerticalStackLayout>
                             </Grid>
                         </Frame>
