@@ -50,49 +50,71 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame
-                            Margin="0,0,0,10"
-                            Padding="12"
-                            CornerRadius="14"
-                            HasShadow="True"
-                            x:Name="ItemFrame">
+            Margin="0,0,0,10"
+            Padding="12"
+            CornerRadius="14"
+            HasShadow="True"
+            BackgroundColor="White"
+            BorderColor="#E0E0E0">
 
-                            <Frame.Triggers>
-                                <DataTrigger TargetType="Frame"
-                                    Binding="{Binding Source={RelativeSource AncestorType={x:Type CollectionView}}, Path=SelectedItem}"
-                                    Value="{Binding .}">
-                                    <Setter Property="BackgroundColor" Value="#D0E8FF"/>
-                                </DataTrigger>
-                            </Frame.Triggers>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="White" />
+                                                <Setter Property="BorderColor" Value="#E0E0E0" />
+                                            </VisualState.Setters>
+                                        </VisualState>
 
-                            <Grid ColumnDefinitions="80,*" ColumnSpacing="10">
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#D0E8FF" />
+                                                <Setter Property="BorderColor" Value="#2D7FF9" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <Grid ColumnDefinitions="Auto,80,*" ColumnSpacing="10">
+                                <Label
+                    Text="✓"
+                    FontSize="20"
+                    FontAttributes="Bold"
+                    TextColor="#2D7FF9"
+                    VerticalOptions="Center"
+                    Opacity="0" />
+
                                 <Image
-                                    Source="{Binding ImagePath}"
-                                    HeightRequest="70"
-                                    WidthRequest="70"
-                                    Aspect="AspectFill" />
+                    Grid.Column="1"
+                    Source="{Binding ImagePath}"
+                    HeightRequest="70"
+                    WidthRequest="70"
+                    Aspect="AspectFill" />
 
-                                <VerticalStackLayout Grid.Column="1" Spacing="3">
+                                <VerticalStackLayout Grid.Column="2" Spacing="3">
                                     <Label
-                                        Text="{Binding Name}"
-                                        FontSize="18"
-                                        FontAttributes="Bold" />
-
-                                    <Label
-                                        Text="{Binding Category}"
-                                        FontSize="12" />
+                        Text="{Binding Name}"
+                        FontSize="18"
+                        FontAttributes="Bold" />
 
                                     <Label
-                                        Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
-                                        FontSize="12" />
+                        Text="{Binding Category}"
+                        FontSize="12" />
 
                                     <Label
-                                        Text="{Binding Status, StringFormat='Status: {0}'}"
-                                        FontSize="12" />
+                        Text="{Binding Quantity, StringFormat='Quantity: {0}'}"
+                        FontSize="12" />
 
                                     <Label
-                                        Text="{Binding Notes}"
-                                        FontSize="12"
-                                        LineBreakMode="TailTruncation" />
+                        Text="{Binding Status, StringFormat='Status: {0}'}"
+                        FontSize="12" />
+
+                                    <Label
+                        Text="{Binding Notes}"
+                        FontSize="12"
+                        LineBreakMode="TailTruncation" />
                                 </VerticalStackLayout>
                             </Grid>
                         </Frame>
